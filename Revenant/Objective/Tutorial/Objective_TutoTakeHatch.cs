@@ -10,33 +10,33 @@ public class Objective_TutoTakeHatch : Objective
 	6번쨰 튜토리얼
 	1. 구르기
 	*/
-
+	
 	private Player_InputMgr m_InputMgr;
-
+	
 	// Objective Variables
 	private int m_Phase = 0;
 	private int m_Count = 0;
 	private Player m_Player;
-
+	
 	public TutorialHatchObject p_TutorialHatchObject;
 	private CameraMgr m_CameraMgr;
-
+	
 	public List<string> p_DroneDialogTextList = new();
 	private int m_CurrentDialogTextCount = 0;
-
+	
 	private Vector3 m_InitialRotate = new();
 	private bool isHatchActive = false;
 	public override void InitObjective(ObjectiveMgr _mgr, ObjectiveUI _ui)
 	{
 		m_ObjMgr = _mgr;
 		m_ObjUI = _ui;
-
+	
 		m_CameraMgr = FindObjectOfType<CameraMgr>();
 		m_Player = GameMgr.GetInstance().p_PlayerMgr.GetPlayer();
 		m_InputMgr = GameMgr.GetInstance().p_PlayerInputMgr;
-
+	
 		m_InputMgr.SetAllLockByBool(true);
-
+	
 		m_Phase = 0;
 		m_Count = 0;
 		p_TutorialHatchObject.Initialize();
@@ -44,7 +44,7 @@ public class Objective_TutoTakeHatch : Objective
 		m_ObjMgr.p_TutorialDroneObject.p_TutorialDialog.SetDialogText(p_DroneDialogTextList[m_CurrentDialogTextCount]);
 		m_InitialRotate = m_Player.transform.localScale;
 	}
-
+	
 	public override void UpdateObjective()
 	{
 		m_Player.m_RageGauge.AddGaugeValue(999999f);
@@ -86,16 +86,16 @@ public class Objective_TutoTakeHatch : Objective
 				break;
 		}
 	}
-
+	
 	public override void ExitObjective()
 	{
 	}
-
+	
 	private void AddCount()
 	{
 		m_Count++;
 	}
-
+	
 	public void DialogPhase()
 	{
 		if (m_Player.transform.position.x < m_ObjMgr.p_TutorialDroneObject.transform.position.x)
@@ -106,7 +106,7 @@ public class Objective_TutoTakeHatch : Objective
 		{
 			m_Player.transform.localScale = new Vector3(-1, 1, 1);
 		}
-
+	
 		if (m_CurrentDialogTextCount < p_DroneDialogTextList.Count)
 		{
 			if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.F))
@@ -135,7 +135,7 @@ public class Objective_TutoTakeHatch : Objective
 			m_InputMgr.p_HideLock = false;
 			m_InputMgr.p_BulletTimeLock = false;
 			m_Player.transform.localScale = m_InitialRotate;
-
+	
 			m_CameraMgr.MoveToTarget(p_TutorialHatchObject.transform, 1);
 			m_ObjUI.LerpUI(false);
 			m_Phase++;

@@ -7,27 +7,27 @@ using UnityEngine;
 
 public class Objective_TutoAttack : Objective
 {
- /*
-     두 번쨰로 하는 목표
-     1. A키 누르기
-     2. D키 누르기
-     */
-    
-    private Player_InputMgr m_InputMgr;
+	/*
+		목표
+		1. A키 누르기
+		2. D키 누르기
+		*/
 
-    // Objective Variables
-    private int m_Count = 0;
-    private int m_Phase = 0;
+	private Player_InputMgr m_InputMgr;
 
-    private int m_UseLeftClickCount = 0;
-    private int m_UseRightClickCount = 0;
+	// Objective Variables
+	private int m_Count = 0;
+	private int m_Phase = 0;
+
+	private int m_UseLeftClickCount = 0;
+	private int m_UseRightClickCount = 0;
 	private int m_ReloadCount = 0;
 
-    private Player m_Player;
+	private Player m_Player;
 
 	public BasicEnemy tutorialEnemy;
 	public List<BasicEnemy> tutorialEnemies = new();
-    private int enemyCount = 0;
+	private int enemyCount = 0;
 
 	private CameraMgr m_CameraMgr;
 
@@ -36,30 +36,30 @@ public class Objective_TutoAttack : Objective
 
 	private Vector3 m_InitialRotate = new();
 	public override void InitObjective(ObjectiveMgr _mgr, ObjectiveUI _ui)
-    {
-        m_ObjMgr = _mgr;
-        m_ObjUI = _ui;
+	{
+		m_ObjMgr = _mgr;
+		m_ObjUI = _ui;
 
 		m_CameraMgr = FindObjectOfType<CameraMgr>();
 		m_Player = GameMgr.GetInstance().p_PlayerMgr.GetPlayer();
-        m_InputMgr = GameMgr.GetInstance().p_PlayerInputMgr;
-        
-        m_InputMgr.SetAllLockByBool(true);
+		m_InputMgr = GameMgr.GetInstance().p_PlayerInputMgr;
+
+		m_InputMgr.SetAllLockByBool(true);
 
 		m_Phase = 0;
-        m_Count = 0;
+		m_Count = 0;
 
-        m_InputMgr.SetAttackAction(AddLeftClickCount);
+		m_InputMgr.SetAttackAction(AddLeftClickCount);
 		m_Player.AttachActionOnFSM(PlayerStateName.MELEE, () => AddRightClickCount(), true);
 		m_CameraMgr.MoveToTarget(tutorialEnemy.transform, 1);
 		StartCoroutine(SpawnEnemy());
 		enemyCount = tutorialEnemies.Count;
 	}
 
-    public override void UpdateObjective()
-    {
-        switch (m_Phase)
-        {
+	public override void UpdateObjective()
+	{
+		switch (m_Phase)
+		{
 			case 0: // 카메라 이동
 				if (m_CameraMgr.m_IsMoveEnd == true)
 				{
@@ -81,13 +81,13 @@ public class Objective_TutoAttack : Objective
 				DialogPhase();
 				break;
 			case 2:
-                if(m_UseLeftClickCount == 1)
-                {
+				if (m_UseLeftClickCount == 1)
+				{
 					m_ObjUI.SetObjectiveProgress(0, 1);
 					m_ObjUI.SetObjectiveFontStyle(0, true);
 				}
 				if (m_UseRightClickCount == 1)
-                {
+				{
 					m_ObjUI.SetObjectiveProgress(1, 1);
 					m_ObjUI.SetObjectiveFontStyle(1, true);
 				}
@@ -103,42 +103,42 @@ public class Objective_TutoAttack : Objective
 				proceed = Mathf.InverseLerp(enemyCount, 0, GetActiveEnemyCount());
 
 				m_ObjUI.SetObjectiveProgress(3, proceed);
-                if(proceed >= 1)
-                {
+				if (proceed >= 1)
+				{
 					m_ObjUI.SetObjectiveProgress(3, 1);
 					m_ObjUI.SetObjectiveFontStyle(3, true);
-                }
+				}
 
-                if(proceed >= 1 && m_UseLeftClickCount >= 1 && m_UseRightClickCount >= 1 && m_ReloadCount >= 1)
-                {
+				if (proceed >= 1 && m_UseLeftClickCount >= 1 && m_UseRightClickCount >= 1 && m_ReloadCount >= 1)
+				{
 					m_Phase++;
-                }
+				}
 				break;
-            case 3:
-                m_ObjMgr.SendObjSuccessInfo(m_ObjIdx, true);
-                m_Phase = -1;
-                m_InputMgr.ResetAttackAction();
-                break;
-        }
-    }
+			case 3:
+				m_ObjMgr.SendObjSuccessInfo(m_ObjIdx, true);
+				m_Phase = -1;
+				m_InputMgr.ResetAttackAction();
+				break;
+		}
+	}
 
 
 
-    public override void ExitObjective()
-    {
-        
-    }
+	public override void ExitObjective()
+	{
 
-    private int GetActiveEnemyCount()
-    {
-        int count = 0;
-        foreach(var enemy in tutorialEnemies)
-        {
-            if(enemy.m_CurEnemyStateName != EnemyStateName.DEAD)
-                count++;    
-        }
-        return count;
-    }
+	}
+
+	private int GetActiveEnemyCount()
+	{
+		int count = 0;
+		foreach (var enemy in tutorialEnemies)
+		{
+			if (enemy.m_CurEnemyStateName != EnemyStateName.DEAD)
+				count++;
+		}
+		return count;
+	}
 
 	private IEnumerator SpawnEnemy()
 	{
@@ -149,7 +149,7 @@ public class Objective_TutoAttack : Objective
 		}
 	}
 
-    private void AddLeftClickCount() => m_UseLeftClickCount++;
+	private void AddLeftClickCount() => m_UseLeftClickCount++;
 	private void AddRightClickCount() => m_UseRightClickCount++;
 	public void DialogPhase()
 	{

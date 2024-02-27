@@ -6,18 +6,18 @@ using UnityEngine;
 
 public class Objective_TutoBulletTime : Objective
 {
-    private Player_InputMgr m_InputMgr;
+	private Player_InputMgr m_InputMgr;
 
-    // Objective Variables
-    private int m_Count = 0;
-    private int m_Phase = 0;
+	// Objective Variables
+	private int m_Count = 0;
+	private int m_Phase = 0;
 
-    private int m_UseBulletTimeCount = 0;
+	private int m_UseBulletTimeCount = 0;
 
-    private Player m_Player;
+	private Player m_Player;
 
-    public List<BasicEnemy> tutorialEnemies = new();
-    private int enemyCount = 0;
+	public List<BasicEnemy> tutorialEnemies = new();
+	private int enemyCount = 0;
 	private CameraMgr m_CameraMgr;
 
 	public List<string> p_DroneDialogTextList = new();
@@ -25,19 +25,19 @@ public class Objective_TutoBulletTime : Objective
 
 	private Vector3 m_InitialRotate = new();
 	public override void InitObjective(ObjectiveMgr _mgr, ObjectiveUI _ui)
-    {
-        m_ObjMgr = _mgr;
-        m_ObjUI = _ui;
+	{
+		m_ObjMgr = _mgr;
+		m_ObjUI = _ui;
 
 		m_CameraMgr = FindObjectOfType<CameraMgr>();
 		m_Player = GameMgr.GetInstance().p_PlayerMgr.GetPlayer();
-        m_InputMgr = GameMgr.GetInstance().p_PlayerInputMgr;
-        
-        m_InputMgr.SetAllLockByBool(true);
+		m_InputMgr = GameMgr.GetInstance().p_PlayerInputMgr;
+
+		m_InputMgr.SetAllLockByBool(true);
 
 
 		m_Phase = 0;
-        m_Count = 0;
+		m_Count = 0;
 		m_Player.AttachActionOnFSM(PlayerStateName.BULLET_TIME, () => AddBulletTimeCountCount(), true);
 		enemyCount = tutorialEnemies.Count;
 		m_ObjMgr.p_TutorialDroneObject.p_TutorialDialog.SetDialogActive(true);
@@ -45,18 +45,18 @@ public class Objective_TutoBulletTime : Objective
 		m_InitialRotate = m_Player.transform.localScale;
 	}
 
-    public override void UpdateObjective()
-    {
+	public override void UpdateObjective()
+	{
 		m_Player.m_RageGauge.AddGaugeValue(999999f);
 
 		switch (m_Phase)
-        {
+		{
 			case 0:
 				DialogPhase();
 				break;
 			case 1:
-                if(m_UseBulletTimeCount >= 1)
-                {
+				if (m_UseBulletTimeCount >= 1)
+				{
 					m_ObjUI.SetObjectiveFontStyle(0, true);
 					m_ObjUI.SetObjectiveProgress(0, 1);
 				}
@@ -71,15 +71,15 @@ public class Objective_TutoBulletTime : Objective
 					m_Phase++;
 				}
 				break;
-            case 2:
+			case 2:
 				m_ObjMgr.SendObjSuccessInfo(m_ObjIdx, true);
 				m_Phase = -1;
 				break;
-        }
-    }
+		}
+	}
 
-    public override void ExitObjective()
-    {
+	public override void ExitObjective()
+	{
 	}
 
 	private int GetActiveEnemyCount()

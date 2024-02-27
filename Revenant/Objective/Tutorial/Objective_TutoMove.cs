@@ -29,16 +29,16 @@ public class Objective_TutoMove : Objective
         
         m_Player = GameMgr.GetInstance().p_PlayerMgr.GetPlayer();
         m_InputMgr = GameMgr.GetInstance().p_PlayerInputMgr;
-
-		m_InputMgr.SetAllLockByBool(true);
+    
+    	m_InputMgr.SetAllLockByBool(true);
         m_InputMgr.p_MousePosLock = false;
         m_InputMgr.p_MoveInputLock = false;
         m_LTimer = 0f;
         m_RTimer = 0f;
         m_Phase = 0;
         m_Count = 0;
-		m_ObjUI.LerpUI(false);
-	}
+    	m_ObjUI.LerpUI(false);
+    }
 
     public override void UpdateObjective()
     {
@@ -53,10 +53,10 @@ public class Objective_TutoMove : Objective
                     {
                         m_ObjUI.SetObjectiveFontStyle(0, true);
                         m_Count++;
-
-					}
+    
+    				}
                 }
-
+    
                 if (m_InputMgr.m_IsPushRightKey && m_RTimer < 1f)
                 {
                     m_RTimer += Time.deltaTime * 0.5f;
@@ -67,7 +67,7 @@ public class Objective_TutoMove : Objective
                         m_Count++;
                     }
                 }
-
+    
                 if (m_Count >= 2)
                 {
                     m_Count = 0;
@@ -77,12 +77,12 @@ public class Objective_TutoMove : Objective
             
             case 1:
                 m_ObjMgr.SendObjSuccessInfo(m_ObjIdx, true);
-
-				m_Phase = -1;
+    
+    			m_Phase = -1;
                 break;
         }
     }
-
+    
     public override void ExitObjective()
     {
         

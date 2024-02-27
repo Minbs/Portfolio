@@ -5,19 +5,12 @@ using UnityEngine;
 
 public class Objective_TutoHide : Objective
 {
-     /*
-     5번쨰 튜토리얼
-     1. 구르기
-     */
-    
-    private Player_InputMgr m_InputMgr;
-
+	private Player_InputMgr m_InputMgr;
     // Objective Variables
-    private int m_Phase = 0;
-    private int m_Count = 0;
-    private Player m_Player;
-
-    public TutorialHideObject p_TutorialHideObject;
+	private int m_Phase = 0;
+	private int m_Count = 0;
+	private Player m_Player;
+	public TutorialHideObject p_TutorialHideObject;
 	private CameraMgr m_CameraMgr;
 
 	public List<string> p_DroneDialogTextList = new();

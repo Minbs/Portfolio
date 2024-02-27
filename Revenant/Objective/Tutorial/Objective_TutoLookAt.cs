@@ -94,8 +94,7 @@ public class Objective_TutoLookAt : Objective
     }
 
     public override void ExitObjective()
-    {
-        
+    {    
     }
 
     public void DialogPhase()
@@ -131,5 +130,5 @@ public class Objective_TutoLookAt : Objective
 			m_ObjMgr.p_TutorialDroneObject.p_TutorialDialog.SetDialogActive(false);
 			m_Phase++;
 		}
-	}
+    }
 }
